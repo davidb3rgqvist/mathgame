@@ -37,6 +37,8 @@ function runGame(gameType) {
     // Creates two random numbers between 1 and 25
     let num1 = Math.floor(Math.random() * 25) + 1;
     let num2 = Math.floor(Math.random() * 25) + 1;
+    let num3 = getRandomEvenDivisor();
+    let num4 = getRandomEvenDividend(num3);
 
     if (gameType === "addition") {
         displayAdditionQuestion(num1, num2);
@@ -48,14 +50,29 @@ function runGame(gameType) {
         displaySubtractQuestion(num1, num2);
     }
     else if (gameType === "division") { 
-        displayDivisionQuestion(num1, num2);
+        displayDivisionQuestion(num3, num4);
     }
     else {
         alert(`Unknown game type: ${gameType}`);
         throw `Unknown game type: ${gameType}. Aborting!`;
     }
-
 }
+
+    function getRandomEvenDivisor() {
+        let min = 2;
+        let max = 10;
+        return 2 * Math.floor(Math.random() * ((max / 2) - min +1)) + min;
+    }
+    
+    function getRandomEvenDividend(divisor) {
+        return getRandomInteger(1, 25) * divisor;
+    }
+
+    function getRandomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+
 
 /**
  * Checks the answer agaist the first element in
@@ -151,7 +168,7 @@ function displayMultiplyQuestion(operand1, operand2) {
 
 function displayDivisionQuestion(operand1, operand2) {
 
-    document.getElementById('operand1').textContent = operand1;
-    document.getElementById('operand2').textContent = operand2;
+    document.getElementById('operand1').textContent = operand1 > operand2 ? operand1 : operand2;
+    document.getElementById('operand2').textContent = operand1 > operand2 ? operand2 : operand1;
     document.getElementById('operator').textContent = "/";
 }
